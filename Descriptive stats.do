@@ -61,6 +61,8 @@ histogram spg if year==2014
 
 
 ////////////////Correlations between STS and other variables of interest*//////////////
+
+//do at once and add significance
 pwcorr ect sts
 pwcorr mct sts
 pwcorr sct sts
@@ -72,7 +74,16 @@ graph bar, over(spg)
 graph bar (count), over(spg)
 graph bar, over(met)
 
+/////////////////////ideas///////////////
+//all of them athhe sam etime
+sysuse auto,clear
 
+//if continuous
+gr matrix wei len pri mpg, half
+
+//and if categorical do bar  charts
+//start simple and then keep on adding complexity
+gr bar mpg, by(foreign) over(rep78) over(headr)
 
 
 
