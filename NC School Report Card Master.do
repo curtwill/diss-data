@@ -2,16 +2,32 @@
 *******************************************************************************
 ///////////////////////////Building a directory for my project/////////////////
 *******************************************************************************
+//first mkdir and go there
+//cd  //change dir to where you wanna be
+//cd /tmp/  //just right click
+//mkdir makes a dir
+//ls lists contents
+//btw if lots of downloading
+// https://blog.stata.com/2010/12/01/automating-web-downloads-and-file-unzipping/
+
 *******************************************************************************
 loc e="E:/Dissertation/Data/NC Data/NC Schools Report Card Data Excel/" //For all raw data file in excel*//
 loc s="E:/Dissertation/Data/NC Data/NC Schools Report Card Data Stata/" //For all merged data and datasets*//
 *******************************************************************************
 //////////////////////////End Directory Building///////////////////////////////
-//example commemn
+
 /////Building a dataset from 2014 to 2016 using NC Report Card Data from those years.*//
 
 *****Start with bringing together the separate SPG files from 2014 to 2016*******
 import excel "https://docs.google.com/uc?id=1XWManKPWqTRNA-yDvYzsAb8Oikt86GsS&export=download", sheet("Sheet1") firstrow clear
+//historgams to identify outliere and may also do hilo
+destring SPGSc, replace
+hist SPGSc
+hilo SPGSc SchoolName 
+//SBERegion great variable--look by region; try to show a map, just google eg
+//https://www.ncschoolcounselor.org/resources/Pictures/NEW%20Regions%20Map%2010-15-15.jpg
+gr bar SPGSc (sd) SPGSc,over(SBERegion) 
+
 gen year = 2014
 rename LEAName DistrictName
 save "`s'NC Schools SPG 2014.dta", replace
@@ -122,6 +138,7 @@ merge 1:1 SchoolCode year using "E:\Dissertation\Data\NC Data\NC Schools Report 
 drop _merge
 save "`s'Master NC School Report Card Dataset.dta", replace
 //Dropping some unneccesary variables*//
+// again probbaly better like this keep lea_*
 drop lea_sat_participation_pct st_sat_participation_pct nat_sat_participation_pct lea_esea_attendance lea_ap_participation_pct st_ap_participation_pct lea_ap_pct_3_or_above st_ap_pct_3_or_above
 drop lea_sat_avg_score_num st_sat_avg_score_num nat_sat_avg_score_num
 drop lea_ib_participation_pct st_ib_participation_pct lea_ib_pct_4_or_above st_ib_pct_4_or_above
@@ -135,6 +152,8 @@ order year Lea_Name SchoolCode School_Name scity_ad szip_ad type_cd category_cd 
 save "`s'Master NC School Report Card Dataset.dta", replace
 //Some variables need to be changed to enable analysis*//
 encode title1_type_cd, gen(title1code)
+//here can do it at once too AND EVERYWHERE YTU RECODE
+//recode title1code (1=1 "Yes")(. = 0 "No"), gen(title1)
 recode title1code (. = 0), gen(title1)
 label define t1 1 Yes 0 No
 label values title1 t1
@@ -146,6 +165,9 @@ gen met =(egs<=2) if egs !=.
 label var met "School Met or Exceeded EVAAS Growth Goals"
 gen SPG = SPGGrade+SchoolPerformanceGradeSPG
 encode SPG, gen(spg)
+
+//fine but inefficent, so couild do it in one step:
+// recode spg (2=6 "ANG")(1=5 "A")(3=4)(4=3)(5=2)(6=1)(7=0)(8=0)
 recode spg (2=6)(1=5)(3=4)(4=3)(5=2)(6=1)(7=0)(8=0)
 label define sgrade 6 ANG 5 A 4 B 3 C 2 D 1 F 0 NA
 label values spg sgrade
@@ -184,6 +206,8 @@ drop SummerProgram
 foreach denom in YearCohortGraduationRateDe AA {
 destring `denom', replace force
 }
+//again many inefficiencies; but thats usual i do the same thing
+//when write code atthe beginng, but then beed to go over it and rewrite adn make more efficient
 foreach percent in CohortGraduationRateStandard YearCohortGraduationRatePe AB {
 replace `percent' = "95" if `percent'==">95"
 destring `percent', replace force
@@ -211,6 +235,7 @@ replace grad4pct=gradrate1 if grad4pct==. & year==2014
 
 save "E:/Dissertation/Data/NC Data/NC Schools Report Card Data Stata/Master NC School Report Card Dataset.dta", replace
 
+//i like next 40 lines or so becaus one clear chunk
 rename sat_avg_score_num satavg
 rename sat_participation_pct satpct
 rename ap_participation_pct appart
@@ -243,6 +268,7 @@ label var ltmove "percentage of teachers moving laterally into other positions"
 label var hqc "percentage of high quality classes" 
 label var ada "average daily attendance (percent)" 
 
+//the other thing is to have things in one place: have chunks of code that do similar thing
 foreach percent in satpct flicensed_teach_pct tchyrs_0thru3_pct tchyrs_4thru10_pct tchyrs_11plus_pct advance_dgr_pct _1yr_tchr_trnovr_pct emer_prov_teach_pct lateral_teach_pct highqual_class_pct avg_daily_attend_pct {
 replace `percent' = `percent'*100
 }
@@ -250,7 +276,12 @@ replace spg = . if spg==0
 save "E:\Dissertation\Data\NC Data\NC Schools Report Card Data Stata\Master NC School Report Card Dataset.dta", replace
 
 
+//looking ahead--so so far just school data; add census data later maybe
+//eg socialexplorer.com: tables: 5yr acs and merge on school district
 
+
+//and maybe maps
+//free https://www.policymap.com/
 
 
 
