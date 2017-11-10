@@ -11,16 +11,16 @@ loc s="E:/Dissertation/Data/NC Data/NC Schools Report Card Data Stata/" //For al
 /////Building a dataset from 2014 to 2016 using NC Report Card Data from those years.*//
 
 *****Start with bringing together the separate SPG files from 2014 to 2016*******
-import excel "`e'NC Schools SPG 2014.xlsx", sheet("Sheet1") firstrow
+import excel "https://docs.google.com/uc?id=1XWManKPWqTRNA-yDvYzsAb8Oikt86GsS&export=download", sheet("Sheet1") firstrow 
 gen year = 2014
 rename LEAName DistrictName
 save "`s'NC Schools SPG 2014.dta", replace
 clear
-import excel "`e'\NC Schools SPG 2015.xlsx", sheet("Sheet1") firstrow
+import excel "https://docs.google.com/uc?id=1zcceyS9qgE9Of17boG6O2fyFvZWLvXei&export=download", sheet("Sheet1") firstrow
 gen year = 2015
 save "`s'NC Schools SPG 2015.dta", replace 
 clear
-import excel "`e'NC Schools SPG 2016.xlsx", sheet("acctsumm16") firstrow
+import excel "https://docs.google.com/uc?id=1ktyiFwBcI_qF_f735Uobx_QgUkIe8ly4&export=download", sheet("acctsumm16") firstrow
 gen year = 2016
 save "`s'NC Schools SPG 2016.dta", replace
 clear
@@ -36,7 +36,7 @@ save "`s'SPG Combined 2014 to 2016.dta", replace
 
 //////////////////////////////////SPG to School Profile///////////////////////////////
 clear
-import excel "`e'NC School Profiles 2006 to 2016.xlsx", sheet("PROFILE") firstrow
+import excel "https://docs.google.com/uc?id=1Hz8XeI21HmMk6PxP0JTaYX7Rn_v3-TZm&export=download", sheet("PROFILE") firstrow
 encode year, gen(year2)
 recode year2 (1=5)(2=6)(3=7)(4=8)(5=9)(6=10)(7=11)(8=12)(9=13)(10=14)(11=15)
 label define yr 1 2002 2 2003 3 2004 4 2005 5 2006 6 2007 7 2008 8 2009 9 2010 10 2011 11 2012 12 2013 13 2014 14 2015 15 2016
@@ -55,7 +55,7 @@ drop _merge
 save "`s'Merged SPG and School Profile Data 2014 to 2016.dta", replace
 //////////////////////////////Next merge is to the School Environment Data//////////////////
 clear
-import excel "`e'NC Schools Environment Data 2006 to 2016.xlsx", sheet("ENVIRONMENT") firstrow
+import excel "https://docs.google.com/uc?id=1aavU4KfwArPdP2_2AsDVScGW0JgaxJtE&export=download", sheet("ENVIRONMENT") firstrow
 encode year, gen(year2)
 recode year2 (1=5)(2=6)(3=7)(4=8)(5=9)(6=10)(7=11)(8=12)(9=13)(10=14)(11=15)
 label define yr 1 2002 2 2003 3 2004 4 2005 5 2006 6 2007 7 2008 8 2009 9 2010 10 2011 11 2012 12 2013 13 2014 14 2015 15 2016
@@ -72,7 +72,7 @@ drop _merge
 save "`s'SPG School Profile Environment Dataset.dta", replace
 /////////////////////////Next merge is to the Funding table//////////////////////////////////
 clear
-import excel "`e'NC Schools Funding Data 2002 to 2016.xlsx", sheet("FUNDING") firstrow
+import excel "https://docs.google.com/uc?id=1-RhxUnvy-tatI4_jkZapATuA78X6H54J&export=download", sheet("FUNDING") firstrow
 encode year, gen(year2)
 label define yr 1 2002 2 2003 3 2004 4 2005 5 2006 6 2007 7 2008 8 2009 9 2010 10 2011 11 2012 12 2013 13 2014 14 2015 15 2016
 label values year2 yr
@@ -88,7 +88,7 @@ drop _merge
 save "`s'Data with Funding.dta", replace
 /////////////////////////Next merge is with the Personnel Data table//////////
 clear
-import excel "`e'NC School Personnel Data 2006 to 2016.xlsx", sheet("Sheet1") firstrow
+import excel "https://docs.google.com/uc?id=1Z4b3ubSPV5I-mJWY1p0xFzUmTZYkyuGc&export=download", sheet("Sheet1") firstrow
 encode year, gen(year2)
 recode year2 (1=5)(2=6)(3=7)(4=8)(5=9)(6=10)(7=11)(8=12)(9=13)(10=14)(11=15)
 label define yr 1 2002 2 2003 3 2004 4 2005 5 2006 6 2007 7 2008 8 2009 9 2010 10 2011 11 2012 12 2013 13 2014 14 2015 15 2016
@@ -105,7 +105,7 @@ drop _merge
 save "`s'Data with Funding merged with Personnel Data.dta", replace
 //////////////////////////Now, I will merge with School Indicators data*///////
 clear
-import excel "`e'NC School Indicators 2002 to 2016.xlsx", sheet("SCHOOL_INDICATORS") firstrow
+import excel "https://docs.google.com/uc?id=1fPkEyD65PX7IKAY4q4UNcmcrW_rxnm1c&export=download", sheet("SCHOOL_INDICATORS") firstrow
 encode Year, gen(year2)
 recode year2 (1=5)(2=6)(3=7)(4=8)(5=9)(6=10)(7=11)(8=12)(9=13)(10=14)(11=15)
 label define yr 1 2002 2 2003 3 2004 4 2005 5 2006 6 2007 7 2008 8 2009 9 2010 10 2011 11 2012 12 2013 13 2014 14 2015 15 2016
