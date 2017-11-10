@@ -7,11 +7,11 @@ loc e="E:/Dissertation/Data/NC Data/NC Schools Report Card Data Excel/" //For al
 loc s="E:/Dissertation/Data/NC Data/NC Schools Report Card Data Stata/" //For all merged data and datasets*//
 *******************************************************************************
 //////////////////////////End Directory Building///////////////////////////////
-
+//example commemn
 /////Building a dataset from 2014 to 2016 using NC Report Card Data from those years.*//
 
 *****Start with bringing together the separate SPG files from 2014 to 2016*******
-import excel "https://docs.google.com/uc?id=1XWManKPWqTRNA-yDvYzsAb8Oikt86GsS&export=download", sheet("Sheet1") firstrow 
+import excel "https://docs.google.com/uc?id=1XWManKPWqTRNA-yDvYzsAb8Oikt86GsS&export=download", sheet("Sheet1") firstrow clear
 gen year = 2014
 rename LEAName DistrictName
 save "`s'NC Schools SPG 2014.dta", replace
