@@ -41,8 +41,8 @@ gen year = 2016
 save "`s'NC Schools SPG 2016.dta", replace
 clear
 use "`s'NC Schools SPG 2014.dta"
-append using "`s'SPG 2015.dta"
-append using "`s'SPG 2016.dta"
+append using "`s'NC Schools SPG 2015.dta"
+append using "`s'NC Schools SPG 2016.dta"
 recode year (2014=13)(2015=14)(2016=15)
 label define yr 1 2002 2 2003 3 2004 4 2005 5 2006 6 2007 7 2008 8 2009 9 2010 10 2011 11 2012 12 2013 13 2014 14 2015 15 2016
 label values year yr
